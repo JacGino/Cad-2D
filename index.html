@@ -298,7 +298,7 @@ body.fs #cmd,body.fs #stat{display:none}
 #home:has(.hlw.go) .hw>:not(.lg){animation:hbt .7s ease 1.2s both}
 .hlw .dk,.hlw .bl{display:none!important}
 @media (prefers-reduced-motion:reduce){#home *{animation-duration:.01s!important;animation-delay:0s!important}}
-</style></head><body><div id="boot" style="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif;color:#1D2129;background:#fff">CAD 2D loading… build FO</div><script>(function(){function show(t){var b=document.getElementById("boot");if(!b){b=document.createElement("div");b.id="boot";b.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif"}if(!b.parentNode)document.body.appendChild(b);b.style.background="#fff0f0";b.style.color="#8a1111";b.textContent="CAD 2D error: "+t}addEventListener("error",function(e){if(!e.filename&&!e.lineno&&(!e.message||/^Script error\.?$/.test(e.message)))return;show((e.message||"error")+" ("+String(e.filename||"").split("/").pop()+":"+(e.lineno||"?")+")")});addEventListener("unhandledrejection",function(e){show("promise: "+((e.reason&&e.reason.message)||e.reason))})})()</script>
+</style></head><body><div id="boot" style="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif;color:#1D2129;background:#fff">CAD 2D loading… build FR</div><script>(function(){function show(t){var b=document.getElementById("boot");if(!b){b=document.createElement("div");b.id="boot";b.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif"}if(!b.parentNode)document.body.appendChild(b);b.style.background="#fff0f0";b.style.color="#8a1111";b.textContent="CAD 2D error: "+t}addEventListener("error",function(e){if(!e.filename&&!e.lineno&&(!e.message||/^Script error\.?$/.test(e.message)))return;show((e.message||"error")+" ("+String(e.filename||"").split("/").pop()+":"+(e.lineno||"?")+")")});addEventListener("unhandledrejection",function(e){show("promise: "+((e.reason&&e.reason.message)||e.reason))})})()</script>
 <div id="odp" hidden><div class="bx"><div class="hd"><span>iCloud Drive</span><button id="odx" aria-label="Close">×</button></div><div id="odb"></div></div></div>
 <div id="home"><div class="hw"><div class="lg"><div class="hlw go"><i class="rp" style="--r:0"></i><i class="rp" style="--r:1"></i><i class="rp" style="--r:2"></i><div id="hlogo" class="go"><svg class="hnew" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="CAD 2D">
 <defs>
@@ -854,7 +854,7 @@ function dxfShapes(txt){const L=txt.split(/\r?\n/),ents=[];let sec='',cu=null;co
    const q=rot*Math.PI/180,c=Math.cos(q),sn=Math.sin(q);
    const sx=x+ax*c-ay*sn,sy=y+ax*sn+ay*c;
    out.push(Object.assign({t:'text',a:P(sx,sy),b:P(sx,sy),s:(rw>0?paras:lines).join('\n'),h},ls!=1.2?{ls}:{},rw>0?{w:rw}:{},rot?{r:+rot.toFixed(3)}:{},mtPf?pfOut(mtPf.slice(0,(rw>0?paras:lines).length)):{},fo,st))}
-  else if(T=='IMAGE'){const u=P(num(e,11),num(e,21)),v=P(num(e,12),num(e,22)),pw=num(e,13)||1,ph=num(e,23)||1,w=Math.hypot(u.x,u.y)*pw,hh=Math.hypot(v.x,v.y)*ph,x=num(e,10),y=num(e,20),hd=(e.g.find(p=>p[0]==340)||[0,''])[1];imgs.push({x,y:y+hh,w,hd})}
+  else if(T=='IMAGE'){const u=P(num(e,11),num(e,21)),v=P(num(e,12),num(e,22)),pw=num(e,13)||1,ph=num(e,23)||1,w=Math.hypot(u.x,u.y)*pw,hh=Math.hypot(v.x,v.y)*ph,x=num(e,10),y=num(e,20),hd=(e.g.find(p=>p[0]==340)||[0,''])[1],cx=e.g.filter(p=>p[0]==14).map(p=>parseFloat(p[1])),cy=e.g.filter(p=>p[0]==24).map(p=>parseFloat(p[1]));let cr=null;if(cx.length>=2&&cx.length==cy.length){const x0=Math.min(...cx),x1=Math.max(...cx),y0=Math.min(...cy),y1=Math.max(...cy),l=(x0+.5)/pw,r=1-(x1+.5)/pw,bt=(y0+.5)/ph,tp=1-(y1+.5)/ph,k=v=>Math.min(.98,Math.max(0,v));if(l>.002||r>.002||bt>.002||tp>.002)cr={l:k(l),t:k(tp),r:k(r),b:k(bt)}}imgs.push({x,y:y+hh,w,hd,cr})}
   else if(T=='CADHATCH'){const lp=[];let cu2=null,px=0;for(const[c,v]of e.g){if(c==92){cu2=[];lp.push(cu2)}else if(c==10)px=parseFloat(v)||0;else if(c==20&&cu2)cu2.push([+px.toFixed(3),+(parseFloat(v)||0).toFixed(3)])}
    for(const L2 of lp)if(L2.length>2)out.push(Object.assign({t:'free',a:P(L2[0][0],L2[0][1]),b:P(L2[0][0],L2[0][1]),p:L2,f:1,fa:num(e,40)||.3},st))}
   else if(T!='VERTEX'&&T!='SEQEND')skip++}
@@ -1018,10 +1018,13 @@ function dwgImages(buf){
    const pt=[r.BD(),r.BD(),r.BD()],u=[r.BD(),r.BD(),r.BD()],v=[r.BD(),r.BD(),r.BD()],w=r.RD(),hh=r.RD();
    if(![...pt,...u,...v,w,hh].every(x=>isFinite(x)&&Math.abs(x)<1e12)||!(w>=1&&w<=60000&&hh>=1&&hh<=60000))continue;
    const lu=Math.hypot(u[0],u[1]),lv=Math.hypot(v[0],v[1]);if(lu<1e-12||lv<1e-12||Math.abs(u[0]*v[0]+u[1]*v[1])>1e-6*lu*lv)continue;
+   let clip=null;try{const dp=r.BS(),on=r.bit();r.bits(8);r.bits(8);r.bits(8);r.bit();const ct=r.BS();
+    if(on&&(ct===1||ct===2)){const pts=[];if(ct===1){pts.push([r.RD(),r.RD()],[r.RD(),r.RD()])}else{const nv=r.BL();if(nv>0&&nv<5000)for(let i=0;i<nv;i++)pts.push([r.RD(),r.RD()])}
+     if(pts.length>=2&&pts.every(q=>isFinite(q[0])&&isFinite(q[1])&&Math.abs(q[0])<1e6&&Math.abs(q[1])<1e6)){const xs=pts.map(q=>q[0]),ys=pts.map(q=>q[1]);clip={x0:Math.min(...xs),x1:Math.max(...xs),y0:Math.min(...ys),y1:Math.max(...ys),n:pts.length,t:ct}}}}catch(e){}
    const end=o.p*8+o.size*8,hr=new BR(end-o.hs);let def=null;
    try{while(hr.b<end-3){const[c,x]=hr.H();if(c===5&&defs.has(x)){def=x;break}}}catch(e){}
    if(def==null)continue;
-   imgs.push({h:hd,em,x:pt[0],y:pt[1],ux:u[0],uy:u[1],vx:v[0],vy:v[1],w,hh,def,file:defs.get(def)})}catch(e){}}
+   imgs.push({clip,h:hd,em,x:pt[0],y:pt[1],ux:u[0],uy:u[1],vx:v[0],vy:v[1],w,hh,def,file:defs.get(def)})}catch(e){}}
  return{ver,imgs,defs:[...defs].map(([h,f])=>({h,f}))}}
 
 async function openDwg(f){flash('Opening DWG… the first time needs internet to load the DWG reader');
@@ -1030,13 +1033,13 @@ async function openDwg(f){flash('Opening DWG… the first time needs internet to
   const q=dwgToDxf(db);let gi=null;try{gi=q.img?null:dwgImages(buf)}catch(e){gi={err:String(e&&e.message||e)}}
   if(gi&&gi.imgs&&gi.imgs.length){const hx=n=>n.toString(16).toUpperCase(),use=gi.imgs.filter(m=>m.em==2),ds={};use.forEach(m=>{ds[m.def]=m.file});
    const ob='0\nSECTION\n2\nOBJECTS\n'+Object.entries(ds).map(([h,fl])=>'0\nIMAGEDEF\n5\n'+hx(+h)+'\n1\n'+fl+'\n').join('')+'0\nENDSEC\n';
-   const en=use.map(m=>'0\nIMAGE\n10\n'+m.x+'\n20\n'+m.y+'\n11\n'+m.ux+'\n21\n'+m.uy+'\n12\n'+m.vx+'\n22\n'+m.vy+'\n13\n'+m.w+'\n23\n'+m.hh+'\n340\n'+hx(m.def)+'\n').join('');
+   const en=use.map(m=>'0\nIMAGE\n10\n'+m.x+'\n20\n'+m.y+'\n11\n'+m.ux+'\n21\n'+m.uy+'\n12\n'+m.vx+'\n22\n'+m.vy+'\n13\n'+m.w+'\n23\n'+m.hh+'\n340\n'+hx(m.def)+'\n'+(m.clip?'280\n1\n71\n1\n91\n2\n14\n'+m.clip.x0+'\n24\n'+m.clip.y0+'\n14\n'+m.clip.x1+'\n24\n'+m.clip.y1+'\n':'')).join('');
    q.txt=q.txt.replace('0\nSECTION\n2\nENTITIES\n',ob+'0\nSECTION\n2\nENTITIES\n'+en);q.img=(q.img||0)+use.length;gi.used=use.length}
   if(!q.n&&!q.img){flash('No supported shapes found in this DWG'+(q.skip?' ('+q.skip+' unsupported items)':''));return}
   const o=dxfShapes(q.txt);sheetNew((f.name||'Drawing').replace(/\.[^.]+$/,'').slice(0,24),o.out);fit();
-  const c=SH[SC],unn=o.imgs.filter(m=>!m.name).length;c.refs=o.imgs.filter(m=>m.name).map(m=>({x:m.x,y:m.y,w:m.w,name:m.name}));
+  const c=SH[SC],unn=o.imgs.filter(m=>!m.name).length;c.refs=o.imgs.filter(m=>m.name).map(m=>({x:m.x,y:m.y,w:m.w,name:m.name,cr:m.cr}));
   let nOle=0;for(const oi of q.ole||[]){try{const bl=new Blob([oi.bytes],{type:oi.t}),sb=await shrink(bl);if(!sb)continue;const nm='ole-'+Date.now().toString(36)+(nOle++)+(oi.t=='image/png'?'.png':'.jpg');libMem.set(nm,sb);await libPut(nm,sb);c.refs.push({x:oi.x,y:oi.y,w:oi.w,name:nm})}catch(x){}}const np=refsToPics(c);save();draw();let msg='Opened DWG in a new tab: '+o.out.length+' shapes'+(q.skip?'. Skipped '+q.skip+' unsupported items'+(q.skT?' ('+q.skT+')':''):'');
-  if(np){const miss=await picMiss(shapes);draw();msg+='. Pictures: '+(np-miss.length)+' placed'+(miss.length?', '+miss.length+' missing ('+[...new Set(miss)].slice(0,3).join(', ')+')':'')}if(unn)msg+='. '+unn+' picture(s) have no readable file name and were not placed. [info] IMAGE fields: '+(q.dgI||'-')+' | '+(q.dgO||'no objects');
+  if(np){const miss=await picMiss(shapes);draw();msg+='. Pictures: '+(np-miss.length)+' placed'+(miss.length?', '+miss.length+' missing':'')}const um=[...new Set(await picMiss(shapes))];if(um.length){logCmd('Missing pictures ('+um.length+'): '+um.join(' | '))}if(unn)msg+='. '+unn+' picture(s) have no readable file name and were not placed. [info] IMAGE fields: '+(q.dgI||'-')+' | '+(q.dgO||'no objects');
   if(nOle)msg+='. Picture found inside the embedded object and placed ('+nOle+')';else if(q.skip===0&&q.dgE==='')msg+='';
   if(gi&&gi.err)msg+='. [info] picture reader: '+gi.err;if(gi&&gi.used)msg+='. Found '+gi.used+' picture references in the DWG';
   if(q.tcs)msg+='. [info] file has -> '+q.tcs;
@@ -1053,8 +1056,10 @@ async function libPut(n,b){try{const d=await libDb();await new Promise((ok,no)=>
 async function libGet(n){try{const d=await libDb();const v=await new Promise((ok,no)=>{const q=d.transaction('p').objectStore('p').get(n);q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)});d.close();return v}catch(e){return null}}
 const picLoad=b=>new Promise(ok=>{const u=URL.createObjectURL(b),i=new Image();i.onload=()=>{ok(i)};i.onerror=()=>{URL.revokeObjectURL(u);ok(null)};i.src=u});
 async function shrink(b){const i=await picLoad(b);if(!i)return null;const m=Math.min(1,1800/Math.max(i.naturalWidth,i.naturalHeight)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(i.naturalWidth*m));c.height=Math.max(1,Math.round(i.naturalHeight*m));c.getContext('2d').drawImage(i,0,0,c.width,c.height);return new Promise(ok=>c.toBlob(x=>ok(x||b),'image/jpeg',.85))}
-async function libAdd(fs){let n=0;for(const f of fs){const sb=await shrink(f);if(!sb)continue;const k=f.name.toLowerCase();libMem.set(k,sb);await libPut(k,sb);n++}return n}
-async function ulResolve(c){const miss=[];c.ul=[];for(const m of c.refs||[]){const k=(m.name||'').toLowerCase();let b=k&&(libMem.get(k)||await libGet(k));if(!b){miss.push(m.name||'(no name)');continue}libMem.set(k,b);const el=await picLoad(b);if(el)c.ul.push({el,x:m.x,y:m.y,w:m.w});else miss.push(m.name)}return miss}
+const picCk=n=>{let b=String(n||'').toLowerCase().split(/[\\/]/).pop().replace(/[{}\s_\-]+/g,'').replace(/\.jpeg$/,'.jpg');return b},picTail=n=>{const c=picCk(n),m=/^([0-9a-f]{12,})\.(\w+)$/.exec(c);return m?'c:~'+m[1].slice(-12)+'.'+m[2]:null};
+async function libFind(k){if(!k)return null;const ks=[k,'c:'+picCk(k)],t=picTail(k);if(t)ks.push(t);for(const x of ks){const v=libMem.get(x)||await libGet(x);if(v){libMem.set(x,v);return v}}return null}
+async function libAdd(fs){let n=0;for(const f of fs){const sb=await shrink(f);if(!sb)continue;const k=f.name.toLowerCase().split(/[\\/]/).pop();libMem.set(k,sb);await libPut(k,sb);const a='c:'+picCk(k);libMem.set(a,sb);await libPut(a,sb);const t=picTail(k);if(t){libMem.set(t,sb);await libPut(t,sb)}n++}return n}
+async function ulResolve(c){const miss=[];c.ul=[];for(const m of c.refs||[]){const k=(m.name||'').toLowerCase();let b=await libFind(k);if(!b){miss.push(m.name||'(no name)');continue}const el=await picLoad(b);if(el)c.ul.push({el,x:m.x,y:m.y,w:m.w});else miss.push(m.name)}return miss}
 async function unzip(buf){const dv=new DataView(buf),u8=new Uint8Array(buf);let e=u8.length-22;while(e>=0&&dv.getUint32(e,true)!==0x06054b50)e--;if(e<0)throw 0;const n=dv.getUint16(e+10,true);let p=dv.getUint32(e+16,true);const out=[];
  for(let i=0;i<n;i++){if(dv.getUint32(p,true)!==0x02014b50)break;const meth=dv.getUint16(p+10,true),csz=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),xl=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true),name=new TextDecoder().decode(u8.subarray(p+46,p+46+nl));p+=46+nl+xl+cl;
   if(name.endsWith('/')||/(^|\/)(__MACOSX|\.)/.test(name))continue;const ln=dv.getUint16(lo+26,true),lx=dv.getUint16(lo+28,true),st=lo+30+ln+lx,data=u8.subarray(st,st+csz);let bytes;
@@ -1488,10 +1493,10 @@ function IT(){if(cropOn&&cropT)return cropT;const s=sel>=0?shapes[sel]:null;if(s
 /* ---- Pictures as objects ---- */
 const PICEL=new Map();
 function getPic(n){const k=(n||'').toLowerCase();if(!k)return null;const v=PICEL.get(k);if(v)return v.el||null;
- PICEL.set(k,{el:null});(async()=>{let b=libMem.get(k)||await libGet(k);if(b){libMem.set(k,b);const el=await picLoad(b);if(el){PICEL.set(k,{el});draw();return}}})();return null}
+ PICEL.set(k,{el:null});(async()=>{let b=await libFind(k);if(b){const el=await picLoad(b);if(el){PICEL.set(k,{el});draw();return}}})();return null}
 const picH=s=>s.w*(s.asp||.75);
-function refsToPics(c){if(!c.refs||!c.refs.length)return 0;const L=c.refs.map(m=>({t:'pic',a:{x:m.x,y:m.y},b:{x:m.x,y:m.y},w:m.w,name:m.name||''})),arr=c===SH[SC]?shapes:c.shapes;arr.unshift(...L);c.refs=[];return L.length}
-async function picMiss(L){const m=[];for(const s of L){if(s.t!='pic')continue;const k=(s.name||'').toLowerCase();if(!(k&&(libMem.get(k)||await libGet(k))))m.push(s.name||'(no name)')}return m}
+function refsToPics(c){if(!c.refs||!c.refs.length)return 0;const L=c.refs.map(m=>({t:'pic',a:{x:m.x,y:m.y},b:{x:m.x,y:m.y},w:m.w,name:m.name||'',...(m.cr?{cr:m.cr}:{})})),arr=c===SH[SC]?shapes:c.shapes;arr.unshift(...L);c.refs=[];return L.length}
+async function picMiss(L){const m=[];for(const s of L){if(s.t!='pic')continue;const k=(s.name||'').toLowerCase();if(!(k&&await libFind(k)))m.push(s.name||'(no name)')}return m}
 
 /* ---- Copy / Paste ---- */
 var CLIP=null,pasteN=0;try{CLIP=JSON.parse(localStorage.getItem('drafter1clip'))}catch(e){}
@@ -1984,4 +1989,5 @@ function upd(){de.classList.toggle('hm',!home.hidden);var cs=getComputedStyle(pr
 d.textContent='view '+innerWidth+'x'+innerHeight+' | doc '+de.clientHeight+' | vv '+(vv?Math.round(vv.height):'-')+' | screen '+screen.width+'x'+screen.height+' | safe '+cs.paddingTop+' / '+cs.paddingBottom}
 try{new MutationObserver(upd).observe(home,{attributes:true,attributeFilter:['hidden']})}catch(e){}
 addEventListener('resize',upd);addEventListener('orientationchange',upd);addEventListener('load',upd);upd();})();</script>
+<style id="wrapcss">#chist,#chist *{white-space:pre-wrap!important;overflow-wrap:anywhere!important;word-break:break-word!important}#chist{overflow-x:hidden!important;max-width:100%!important;box-sizing:border-box}#cpt{overflow-wrap:anywhere;word-break:break-word}</style>
 </body></html>
