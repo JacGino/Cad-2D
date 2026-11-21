@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#d7d8dc">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="CAD 2D">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -298,7 +298,7 @@ body.fs #cmd,body.fs #stat{display:none}
 #home:has(.hlw.go) .hw>:not(.lg){animation:hbt .7s ease 1.2s both}
 .hlw .dk,.hlw .bl{display:none!important}
 @media (prefers-reduced-motion:reduce){#home *{animation-duration:.01s!important;animation-delay:0s!important}}
-</style></head><body><div id="boot" style="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif;color:#1D2129;background:#fff">CAD 2D loading… build FM</div><script>(function(){function show(t){var b=document.getElementById("boot");if(!b){b=document.createElement("div");b.id="boot";b.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif"}if(!b.parentNode)document.body.appendChild(b);b.style.background="#fff0f0";b.style.color="#8a1111";b.textContent="CAD 2D error: "+t}addEventListener("error",function(e){if(!e.filename&&!e.lineno&&(!e.message||/^Script error\.?$/.test(e.message)))return;show((e.message||"error")+" ("+String(e.filename||"").split("/").pop()+":"+(e.lineno||"?")+")")});addEventListener("unhandledrejection",function(e){show("promise: "+((e.reason&&e.reason.message)||e.reason))})})()</script>
+</style></head><body><div id="boot" style="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif;color:#1D2129;background:#fff">CAD 2D loading… build FO</div><script>(function(){function show(t){var b=document.getElementById("boot");if(!b){b=document.createElement("div");b.id="boot";b.style.cssText="position:fixed;left:0;right:0;top:0;z-index:99999;padding:10px 14px;font:13px/1.4 -apple-system,system-ui,sans-serif"}if(!b.parentNode)document.body.appendChild(b);b.style.background="#fff0f0";b.style.color="#8a1111";b.textContent="CAD 2D error: "+t}addEventListener("error",function(e){if(!e.filename&&!e.lineno&&(!e.message||/^Script error\.?$/.test(e.message)))return;show((e.message||"error")+" ("+String(e.filename||"").split("/").pop()+":"+(e.lineno||"?")+")")});addEventListener("unhandledrejection",function(e){show("promise: "+((e.reason&&e.reason.message)||e.reason))})})()</script>
 <div id="odp" hidden><div class="bx"><div class="hd"><span>iCloud Drive</span><button id="odx" aria-label="Close">×</button></div><div id="odb"></div></div></div>
 <div id="home"><div class="hw"><div class="lg"><div class="hlw go"><i class="rp" style="--r:0"></i><i class="rp" style="--r:1"></i><i class="rp" style="--r:2"></i><div id="hlogo" class="go"><svg class="hnew" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="CAD 2D">
 <defs>
@@ -943,15 +943,102 @@ function dwgToDxf(db){const o=[],g=(c,v)=>{o.push(c,typeof v=='number'?+v.toFixe
  if(!defs.length)st.im=[];
  const stl=[];try{const T=db&&db.tables&&db.tables.STYLE;AR(T&&(T.entries||T)).forEach(x=>{if(!x||x.name==null)return;let fam='',file='';for(const k in x){const v=x[k];if(typeof v!='string'||!v)continue;if(/famil/i.test(k))fam=v;else if(/font|file/i.test(k)&&!/big/i.test(k)&&!file)file=v}if(!file){for(const k in x)if(typeof x[k]=='string'&&/\.(ttf|otf|ttc|shx)$/i.test(x[k])){file=x[k];break}}stl.push(['0\nSTYLE\n2\n'+x.name+'\n3\n'+file+'\n'+(fam?'1000\n'+fam+'\n':'')]);if(!st.dgS)st.dgS=JSON.stringify(x).slice(0,300)})}catch(x){}
  return{tcs:(()=>{try{const c={},ad=x=>{const t=String((x&&(x.type||x.objectType||x.dxfName))||'?').toUpperCase();c[t]=(c[t]||0)+1};AR(db&&db.entities).forEach(ad);let nb=0;blocks.forEach(a=>a.forEach(x=>{ad(x);nb++}));const oc={};OB.forEach(([k,x])=>{const t=tyOf(x,k);oc[t]=(oc[t]||0)+1});const top=(m,n)=>Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,n).map(a=>a[0]+'\u00d7'+a[1]).join(', '),key=m=>Object.entries(m).filter(([k])=>/IMAGE|OLE|PDF|UNDERLAY|WIPEOUT|RASTER|VIEWPORT|HATCH|SOLID|XREF/.test(k)).map(a=>a[0]+'\u00d7'+a[1]).join(', ');return 'entities: '+top(c,8)+(key(c)?' | special: '+key(c):'')+' | in blocks: '+nb+' | objects: '+top(oc,8)+(key(oc)?' | special objects: '+key(oc):'')+' | layouts/blocks: '+blocks.size}catch(x){return 'types failed: '+x}})(),ole:st.oleImgs||[],dgE:st.dgE||'',dgB:st.dgB||'',dgH:st.dgH||'',dgS:stl.length?'':'',skT:Object.entries(st.skT).sort((a,b)=>b[1]-a[1]).slice(0,6).map(a=>a[0]+'×'+a[1]).join(', '),dgP:(st.polyN&&!st.polyC)?st.dgP:'',dgI:st.dgI,dgO:st.dgO,txt:(stl.length?'0\nSECTION\n2\nTABLES\n'+stl.map(a=>a[0]).join('')+'0\nENDSEC\n':'')+(ob?'0\nSECTION\n2\nOBJECTS\n'+ob+'0\nENDSEC\n':'')+'0\nSECTION\n2\nENTITIES\n'+(()=>{let s='';for(let i=0;i<o.length;i+=2)s+=o[i]+'\n'+o[i+1]+'\n';return s})()+'0\nENDSEC\n0\nEOF\n',n:st.n,skip:st.skip,img:st.img}}
+/* DWG picture reader: the DWG reader above skips picture objects, so they are read here (R2010+ files) */
+function dwgImages(buf){
+ const d=new Uint8Array(buf);if(d.length<0x200)return null;
+ const ver=String.fromCharCode(d[0],d[1],d[2],d[3],d[4],d[5]);
+ if(!/^AC10(24|27|32)$/.test(ver))return {err:'version '+ver};
+ const dv=new DataView(d.buffer,d.byteOffset,d.byteLength),u32=p=>dv.getUint32(p,true),i32=p=>dv.getInt32(p,true);
+ function lz(src,max){const out=new Uint8Array(max+300);let o=0,p=0;
+  const rb=()=>src[p++];const lo=()=>{let l=0,b=rb();while(b===0){l+=255;b=rb()}return l+b};
+  const ll=()=>{const b=src[p];if(b===0){p++;return 18+lo()}if(b>=1&&b<=15){p++;return b+3}return 0};
+  let n=ll();for(let i=0;i<n;i++)out[o++]=src[p++];let op=rb();
+  while(op!==0x11&&p<=src.length&&o<max){let comp,off,lit;
+   if(op>=0x40){comp=(op>>4)-1;const b2=rb();off=(((op>>2)&3)|(b2<<2))+1;lit=op&3}
+   else if(op>=0x21){comp=op-0x1E;const b1=rb(),b2=rb();off=((b1>>2)|(b2<<6))+1;lit=b1&3}
+   else if(op===0x20){comp=lo()+0x21;const b1=rb(),b2=rb();off=((b1>>2)|(b2<<6))+1;lit=b1&3}
+   else if(op>=0x12){comp=(op&15)+2;const b1=rb(),b2=rb();off=((b1>>2)|(b2<<6))+0x3FFF;lit=b1&3}
+   else if(op===0x10){comp=lo()+9;const b1=rb(),b2=rb();off=((b1>>2)|(b2<<6))+0x3FFF;lit=b1&3}
+   else return out.subarray(0,o);
+   for(let i=0;i<comp;i++){out[o]=out[o-off];o++}
+   if(lit===0)lit=ll();for(let i=0;i<lit;i++)out[o++]=src[p++];
+   if(p>=src.length)break;op=rb()}
+  return out.subarray(0,o)}
+ const h=d.slice(0x80,0x80+0x6C);let seed=1;
+ for(let i=0;i<h.length;i++){seed=(Math.imul(seed,0x343fd)+0x269ec3)>>>0;h[i]^=(seed>>>16)&255}
+ const hv=new DataView(h.buffer);
+ const pmAddr=Number(hv.getBigUint64(0x54,true)),smId=hv.getUint32(0x5C,true);
+ const sysPage=a=>{const csz=u32(a+8),dsz=u32(a+4),ct=u32(a+12);return ct===2?lz(d.subarray(a+20,a+20+csz),dsz):d.slice(a+20,a+20+csz)};
+ const pm=sysPage(pmAddr+0x100),pmv=new DataView(pm.buffer,pm.byteOffset,pm.byteLength),pages={};let addr=0x100,i=0;
+ while(i+8<=pm.length){const num=pmv.getInt32(i,true),sz=pmv.getInt32(i+4,true);i+=8;if(num<0)i+=16;else pages[num]=[addr,sz];addr+=sz}
+ const sm=sysPage(pages[smId][0]),sv=new DataView(sm.buffer,sm.byteOffset,sm.byteLength),n=sv.getUint32(0,true);let p=20;const secs={};
+ for(let k=0;k<n;k++){const size=Number(sv.getBigUint64(p,true)),pc=sv.getUint32(p+8,true),mx=sv.getUint32(p+12,true),comp=sv.getUint32(p+20,true);
+  let nm='';for(let j=0;j<64&&sm[p+32+j];j++)nm+=String.fromCharCode(sm[p+32+j]);p+=96;const pl=[];
+  for(let j=0;j<pc;j++){pl.push([sv.getUint32(p,true),Number(sv.getBigUint64(p+8,true))]);p+=16}
+  secs[nm]={size,mx,comp,pl}}
+ function section(name){const s=secs[name];if(!s)return null;const buf=new Uint8Array(s.size);
+  for(const[pn,so]of s.pl){const pg=pages[pn];if(!pg)continue;const a=pg[0],mask=(0x4164536b^a)>>>0;
+   const csz=(u32(a+8)^mask)>>>0;const raw=d.subarray(a+32,a+32+csz);const dat=s.comp===2?lz(raw,s.mx):raw;
+   if(so<s.size)buf.set(dat.subarray(0,Math.min(dat.length,s.size-so)),so)}
+  return buf}
+ const O=section('AcDb:AcDbObjects'),H=section('AcDb:Handles');if(!O||!H)return {err:'no objects'};
+ const hm=new Map();
+ {let q=0;while(q+2<=H.length){const sz=(H[q]<<8)|H[q+1];if(sz<=2)break;let r=q+2;const end=q+sz;let hh=0,loc=0;
+   while(r<end){let v=0,sh=0,b;do{b=H[r++];v+=(b&127)*Math.pow(2,sh);sh+=7}while(b&128);hh+=v;
+    v=0;sh=0;let neg=false;for(;;){b=H[r++];if(!(b&128)){if(b&64){neg=true;b&=63}v+=b*Math.pow(2,sh);break}v+=(b&127)*Math.pow(2,sh);sh+=7}
+    loc+=neg?-v:v;hm.set(hh,loc)}
+   q+=sz+2}}
+ class BR{constructor(b){this.b=b}
+  bit(){const v=(O[this.b>>3]>>(7-(this.b&7)))&1;this.b++;return v}
+  bits(n){let v=0;for(let i=0;i<n;i++)v=v*2+this.bit();return v}
+  bytes(n){const a=new Uint8Array(n);for(let i=0;i<n;i++)a[i]=this.bits(8);return a}
+  BB(){return this.bits(2)}
+  BS(){const c=this.bits(2);if(c===0){const a=this.bytes(2);return new DataView(a.buffer).getInt16(0,true)}if(c===1)return this.bits(8);return c===2?0:256}
+  BL(){const c=this.bits(2);if(c===0){const a=this.bytes(4);return new DataView(a.buffer).getInt32(0,true)}if(c===1)return this.bits(8);return 0}
+  RD(){const a=this.bytes(8);return new DataView(a.buffer).getFloat64(0,true)}
+  BD(){const c=this.bits(2);if(c===0)return this.RD();return c===1?1:0}
+  H(){const code=this.bits(4),n=this.bits(4);let v=0;for(let i=0;i<n;i++)v=v*256+this.bits(8);return[code,v]}}
+ const mcu=p=>{let v=0,sh=0,b;do{b=O[p++];v+=(b&127)*Math.pow(2,sh);sh+=7}while(b&128);return[v,p]};
+ const msz=p=>{let lo=O[p]|(O[p+1]<<8);p+=2;if(lo&0x8000){lo&=0x7fff;const hi=O[p]|(O[p+1]<<8);p+=2;return[(hi<<15)|lo,p]}return[lo,p]};
+ function head(loc){const[size,p0]=msz(loc),[hs,p]=mcu(p0);const r=new BR(p*8),t=r.BB();const ty=t===0?r.bits(8):t===1?r.bits(8)+0x1F0:r.bits(16);return{size,hs,p,ty,r}}
+ const FN=/\.(jpe?g|png|bmp|tiff?|gif|webp)$/i,defs=new Map(),cand=[];
+ for(const[hd,loc]of hm){let o;try{o=head(loc)}catch(e){continue}
+  if(o.ty<500||o.size>30000||loc<=0||loc>=O.length)continue;
+  const b=O.subarray(o.p,o.p+o.size);let nm='';
+  for(let k=0;k<8&&!nm;k++){const sb=new Uint8Array(b.length);for(let j=0;j<b.length;j++)sb[j]=((b[j]<<k)|((b[j+1]||0)>>(8-k)))&255;
+   for(let par=0;par<2&&!nm;par++){let run='';for(let j=par;j+1<sb.length;j+=2){const c=sb[j]|(sb[j+1]<<8);if(sb[j+1]===0&&c>=32&&c<127)run+=String.fromCharCode(c);else{if(run.length>=6&&FN.test(run))nm=run;run=''}}
+   if(run.length>=6&&FN.test(run))nm=run}}
+  if(nm)defs.set(hd,nm.replace(/\\/g,'/').split('/').pop());else cand.push([hd,o])}
+ const imgs=[];
+ for(const[hd,o]of cand){try{const r=o.r;r.H();for(;;){const sz=r.BS();if(sz===0)break;if(sz<0||sz>o.size)throw 0;r.H();r.bytes(sz)}
+   if(r.bit()){const nn=r.bits(3);let g=0;for(let i=0;i<nn;i++)g+=r.bits(8)*Math.pow(2,8*i);if(g>o.size)throw 0;r.bytes(g)}
+   const em=r.BB();r.BL();r.bit();r.bit();const fl=r.BS()&0xffff;if(fl&0x8000)r.BL();if(fl&0x2000)r.BL();
+   r.BD();r.BB();r.BB();r.BB();r.bits(8);r.bit();r.bit();r.bit();r.BS();r.bits(8);
+   const cv=r.BL();if(cv<0||cv>5)continue;
+   const pt=[r.BD(),r.BD(),r.BD()],u=[r.BD(),r.BD(),r.BD()],v=[r.BD(),r.BD(),r.BD()],w=r.RD(),hh=r.RD();
+   if(![...pt,...u,...v,w,hh].every(x=>isFinite(x)&&Math.abs(x)<1e12)||!(w>=1&&w<=60000&&hh>=1&&hh<=60000))continue;
+   const lu=Math.hypot(u[0],u[1]),lv=Math.hypot(v[0],v[1]);if(lu<1e-12||lv<1e-12||Math.abs(u[0]*v[0]+u[1]*v[1])>1e-6*lu*lv)continue;
+   const end=o.p*8+o.size*8,hr=new BR(end-o.hs);let def=null;
+   try{while(hr.b<end-3){const[c,x]=hr.H();if(c===5&&defs.has(x)){def=x;break}}}catch(e){}
+   if(def==null)continue;
+   imgs.push({h:hd,em,x:pt[0],y:pt[1],ux:u[0],uy:u[1],vx:v[0],vy:v[1],w,hh,def,file:defs.get(def)})}catch(e){}}
+ return{ver,imgs,defs:[...defs].map(([h,f])=>({h,f}))}}
+
 async function openDwg(f){flash('Opening DWG… the first time needs internet to load the DWG reader');
  let E;try{E=await dwgEngine()}catch(e){flash('The DWG reader could not be loaded ('+String(e.message||e).slice(0,160)+'). Open the file once while online, or convert it to DXF');return}
  try{const buf=await f.arrayBuffer();let dwg=E.lib.dwg_read_data(buf,E.FT?E.FT.DWG:0);if(!dwg)throw new Error('could not read this DWG');const db=E.lib.convert(dwg);try{E.lib.dwg_free(dwg)}catch(e){}
-  const q=dwgToDxf(db);if(!q.n&&!q.img){flash('No supported shapes found in this DWG'+(q.skip?' ('+q.skip+' unsupported items)':''));return}
+  const q=dwgToDxf(db);let gi=null;try{gi=q.img?null:dwgImages(buf)}catch(e){gi={err:String(e&&e.message||e)}}
+  if(gi&&gi.imgs&&gi.imgs.length){const hx=n=>n.toString(16).toUpperCase(),use=gi.imgs.filter(m=>m.em==2),ds={};use.forEach(m=>{ds[m.def]=m.file});
+   const ob='0\nSECTION\n2\nOBJECTS\n'+Object.entries(ds).map(([h,fl])=>'0\nIMAGEDEF\n5\n'+hx(+h)+'\n1\n'+fl+'\n').join('')+'0\nENDSEC\n';
+   const en=use.map(m=>'0\nIMAGE\n10\n'+m.x+'\n20\n'+m.y+'\n11\n'+m.ux+'\n21\n'+m.uy+'\n12\n'+m.vx+'\n22\n'+m.vy+'\n13\n'+m.w+'\n23\n'+m.hh+'\n340\n'+hx(m.def)+'\n').join('');
+   q.txt=q.txt.replace('0\nSECTION\n2\nENTITIES\n',ob+'0\nSECTION\n2\nENTITIES\n'+en);q.img=(q.img||0)+use.length;gi.used=use.length}
+  if(!q.n&&!q.img){flash('No supported shapes found in this DWG'+(q.skip?' ('+q.skip+' unsupported items)':''));return}
   const o=dxfShapes(q.txt);sheetNew((f.name||'Drawing').replace(/\.[^.]+$/,'').slice(0,24),o.out);fit();
   const c=SH[SC],unn=o.imgs.filter(m=>!m.name).length;c.refs=o.imgs.filter(m=>m.name).map(m=>({x:m.x,y:m.y,w:m.w,name:m.name}));
   let nOle=0;for(const oi of q.ole||[]){try{const bl=new Blob([oi.bytes],{type:oi.t}),sb=await shrink(bl);if(!sb)continue;const nm='ole-'+Date.now().toString(36)+(nOle++)+(oi.t=='image/png'?'.png':'.jpg');libMem.set(nm,sb);await libPut(nm,sb);c.refs.push({x:oi.x,y:oi.y,w:oi.w,name:nm})}catch(x){}}const np=refsToPics(c);save();draw();let msg='Opened DWG in a new tab: '+o.out.length+' shapes'+(q.skip?'. Skipped '+q.skip+' unsupported items'+(q.skT?' ('+q.skT+')':''):'');
   if(np){const miss=await picMiss(shapes);draw();msg+='. Pictures: '+(np-miss.length)+' placed'+(miss.length?', '+miss.length+' missing ('+[...new Set(miss)].slice(0,3).join(', ')+')':'')}if(unn)msg+='. '+unn+' picture(s) have no readable file name and were not placed. [info] IMAGE fields: '+(q.dgI||'-')+' | '+(q.dgO||'no objects');
   if(nOle)msg+='. Picture found inside the embedded object and placed ('+nOle+')';else if(q.skip===0&&q.dgE==='')msg+='';
+  if(gi&&gi.err)msg+='. [info] picture reader: '+gi.err;if(gi&&gi.used)msg+='. Found '+gi.used+' picture references in the DWG';
   if(q.tcs)msg+='. [info] file has -> '+q.tcs;
   if(q.dgE)msg+='. [info] embedded object: '+q.dgE;if(q.dgB)msg+='. [info] OLE: '+q.dgB;
   if(q.dgH)msg+='. [info] hatch: '+q.dgH;
